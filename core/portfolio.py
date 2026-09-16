@@ -44,6 +44,9 @@ class VirtualPortfolio:
         self.tax_rate_sell = tax_rate_sell
         self.history: List[Dict] = []  # 일별 NAV 로그
         self.fills: List[Fill] = []
+        # --- 리스크 관리(모든 에이전트 공통 안전장치) ---
+        self.peak_nav = budget          # 지금까지의 최고 평가금액 (고점 대비 낙폭 계산용)
+        self.halt_days_remaining = 0    # 서킷브레이커 발동 시 매수 정지 잔여일
 
     def execute(self, orders: List[Order], prices: Dict[str, float]) -> List[Fill]:
         fills = []
@@ -93,11 +96,38 @@ class VirtualPortfolio:
         equity = sum(prices.get(t, self.avg_cost.get(t, 0.0)) * q
                      for t, q in self.holdings.items())
         nav = self.cash + equity
+        self.peak_nav = max(self.peak_nav, nav)
         self.history.append({
             "date": day, "nav": nav, "cash": self.cash, "equity": equity,
             "holdings": dict(self.holdings),
         })
         return nav
+
+    def current_value(self, prices: Dict[str, float]) -> float:
+        """주어진(오늘) 가격 기준, 매매 실행 전 현재 평가금액을 계산한다."""
+        equity = sum(prices.get(t, self.avg_cost.get(t, 0.0)) * q
+                     for t, q in self.holdings.items())
+        return self.cash + equity
+
+    def drawdown_from_peak(self, prices: Dict[str, float] = None) -> float:
+        """고점(peak_nav) 대비 현재 낙폭 (0.15 = 고점 대비 15% 하락)."""
+        if self.peak_nav <= 0:
+            return 0.0
+        current = self.current_value(prices) if prices is not None else (
+            self.history[-1]["nav"] if self.history else self.cash)
+        return max(0.0, 1 - current / self.peak_nav)
+
+    def to_dict(self) -> Dict:
+        return {
+            "agent_id": self.agent_id,
+            "budget": self.budget,
+            "cash": self.cash,
+            "holdings": self.holdings,
+            "avg_cost": self.avg_cost,
+            "history": self.history,
+            "peak_nav": self.peak_nav,
+            "halt_days_remaining": self.halt_days_remaining,
+        }
 
     def daily_return(self) -> float:
         if len(self.history) < 2:
@@ -110,13 +140,3 @@ class VirtualPortfolio:
         if not self.history:
             return 0.0
         return self.history[-1]["nav"] / self.budget - 1
-
-    def to_dict(self) -> Dict:
-        return {
-            "agent_id": self.agent_id,
-            "budget": self.budget,
-            "cash": self.cash,
-            "holdings": self.holdings,
-            "avg_cost": self.avg_cost,
-            "history": self.history,
-        }

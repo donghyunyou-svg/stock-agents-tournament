@@ -17,11 +17,18 @@ import pandas as pd
 from .agents import BaseAgent, build_default_agents
 from .data import MarketDataProvider, Instrument
 from .evolution import share_and_evolve
-from .portfolio import VirtualPortfolio
+from .portfolio import Order, VirtualPortfolio
 from .scoring import DailyResult, WeeklyTournament
 
 
 class TournamentSimulator:
+    # --- 모든 에이전트에 공통으로 적용되는 리스크 관리(서킷브레이커) 설정 ---
+    # 전략과 무관하게, 어떤 에이전트든 고점 대비 이 이상 손실이 나면 강제로 전량 현금화하고
+    # 일정 기간 매수를 정지시켜 손실을 제한한다 ("성과를 극대화"하려면 하락장에서 살아남는 것이
+    # 가장 중요하다는 원칙).
+    MAX_DRAWDOWN = 0.15       # 고점 대비 15% 손실 시 서킷브레이커 발동
+    COOLDOWN_DAYS = 3         # 발동 후 매수 정지 기간(거래일)
+
     def __init__(self, provider: MarketDataProvider, budget_per_agent: float = 10_000_000,
                  agents: List[BaseAgent] = None, history_lookback_days: int = 400):
         self.provider = provider
@@ -55,7 +62,20 @@ class TournamentSimulator:
         if not history:
             return None
         prices = {t: df["Close"].iloc[-1] for t, df in history.items() if not df.empty}
-        macro = self.provider.get_macro_snapshot(day)
+        macro = dict(self.provider.get_macro_snapshot(day))
+
+        # 종목별 재무지표(PER/PBR 등)를 조회해 macro 딕셔너리에 실어 에이전트에 전달한다
+        # (실패해도 해당 종목만 빠지고 전체 사이클은 계속 진행).
+        fundamentals: Dict[str, Dict[str, float]] = {}
+        for t in history.keys():
+            try:
+                f = self.provider.get_fundamentals(t)
+            except Exception as e:
+                print(f"[경고] {t} 재무지표 조회 실패: {e}", file=sys.stderr)
+                continue
+            if f:
+                fundamentals[t] = f
+        macro["fundamentals"] = fundamentals
 
         iso_week = day.isocalendar()[:2]  # (year, week)
         if self._current_iso_week is None:
@@ -74,7 +94,20 @@ class TournamentSimulator:
 
         for agent in self.agents:
             pf = self.portfolios[agent.agent_id]
-            orders = agent.decide(day, history, macro, self.universe, pf, prices)
+
+            if pf.halt_days_remaining > 0:
+                # 서킷브레이커 발동 중: 신규 매수 없이 현금 보유만 유지, 잔여일 차감
+                orders = [Order(t, "SELL", q, "circuit-breaker-cooldown")
+                          for t, q in pf.holdings.items()]
+                pf.halt_days_remaining -= 1
+            elif pf.drawdown_from_peak(prices) >= self.MAX_DRAWDOWN:
+                # 고점 대비 손실이 한도를 넘으면 전량 현금화하고 냉각 기간에 진입
+                orders = [Order(t, "SELL", q, "circuit-breaker-trigger")
+                          for t, q in pf.holdings.items()]
+                pf.halt_days_remaining = self.COOLDOWN_DAYS
+            else:
+                orders = agent.decide(day, history, macro, self.universe, pf, prices)
+
             pf.execute(orders, prices)
             pf.mark_to_market(day.isoformat(), prices)
 
@@ -149,6 +182,8 @@ class TournamentSimulator:
             pf.holdings = {k: float(v) for k, v in pdata.get("holdings", {}).items()}
             pf.avg_cost = {k: float(v) for k, v in pdata.get("avg_cost", {}).items()}
             pf.history = pdata.get("history", [])
+            pf.peak_nav = pdata.get("peak_nav", pf.budget)
+            pf.halt_days_remaining = pdata.get("halt_days_remaining", 0)
 
         t = state.get("tournament", {})
         self.tournament.points = defaultdict(int, t.get("points", {}))

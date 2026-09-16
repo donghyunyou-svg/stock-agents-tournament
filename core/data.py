@@ -46,6 +46,10 @@ class MarketDataProvider(abc.ABC):
         """거시경제 지표 스냅샷 (금리, 환율, 유가 등). 기본값은 빈 dict."""
         return {}
 
+    def get_fundamentals(self, ticker: str) -> Dict[str, float]:
+        """PER/PBR 등 재무 지표. 기본값은 빈 dict (미지원 Provider/종목)."""
+        return {}
+
 
 class SyntheticDataProvider(MarketDataProvider):
     """
@@ -315,6 +319,34 @@ class KISOpenAPIProvider(MarketDataProvider):
         if market == "KRX":
             return self._get_domestic_history(ticker, start, end)
         return self._get_overseas_history(ticker, start, end)
+
+    # -------------------------------------------------------------- 재무지표
+    def get_fundamentals(self, ticker: str) -> Dict[str, float]:
+        """
+        국내 종목의 PER/PBR을 조회한다 (주식현재가 시세 API, tr_id FHKST01010100).
+        해외 종목은 아직 지원하지 않는다 (빈 dict 반환 -> 가격 기반 근사치로 대체됨).
+        """
+        inst = next((i for i in self._universe if i.ticker == ticker), None)
+        market = inst.market if inst else ("KRX" if ticker.isdigit() else "US")
+        if market != "KRX":
+            return {}
+        try:
+            data = self._get(
+                "/uapi/domestic-stock/v1/quotations/inquire-price",
+                "FHKST01010100",
+                {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": ticker},
+            )
+            out = data.get("output", {})
+            per = float(out["per"]) if out.get("per") not in (None, "") else None
+            pbr = float(out["pbr"]) if out.get("pbr") not in (None, "") else None
+            result = {}
+            if per is not None and per > 0:
+                result["per"] = per
+            if pbr is not None and pbr > 0:
+                result["pbr"] = pbr
+            return result
+        except Exception:
+            return {}
 
     def _get_domestic_history(self, code: str, start: date, end: date) -> pd.DataFrame:
         rows = []

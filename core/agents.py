@@ -25,6 +25,11 @@ class BaseAgent(abc.ABC):
     name: str
     description: str
 
+    # --- 리스크 관리(모든 에이전트 공통): 종목 하나에 몰빵하지 않도록 비중 상한을 둔다.
+    # 전략이 아무리 좋아도 집중투자는 변동성을 키우므로, 성과 극대화를 위해서는
+    # 개별 종목 비중을 일정 수준으로 제한하는 것이 장기적으로 유리하다.
+    MAX_POSITION_WEIGHT = 0.35
+
     def __init__(self, params: Dict = None):
         self.params = params or {}
 
@@ -41,6 +46,8 @@ class BaseAgent(abc.ABC):
         portfolio: VirtualPortfolio, prices: Dict[str, float],
     ) -> List[Order]:
         target_weights = self.compute_target_weights(today, history, macro, universe)
+        # 종목당 비중 상한 적용 (초과분은 재배분하지 않고 현금으로 남겨 리스크를 낮춘다)
+        target_weights = {t: min(w, self.MAX_POSITION_WEIGHT) for t, w in target_weights.items()}
         return self._rebalance(target_weights, prices, portfolio)
 
     def _rebalance(self, target_weights: Dict[str, float], prices: Dict[str, float],
@@ -79,14 +86,23 @@ def _top_k(scores: Dict[str, float], k: int, ascending: bool = False) -> List[st
 class MomentumAgent(BaseAgent):
     agent_id = "agent01_momentum"
     name = "모멘텀 추종 (Momentum)"
-    description = "최근 N일 수익률(상대 모멘텀)이 가장 높은 상위 K개 종목에 균등 투자"
+    description = "단기(5일)/중기(20일)/장기(60일) 모멘텀을 가중 평균해 상위 K개 종목에 투자"
 
     def __init__(self, params=None):
-        super().__init__(params or {"window": 60, "top_k": 4})
+        super().__init__(params or {"short_window": 5, "window": 20, "long_window": 60, "top_k": 4})
 
     def compute_target_weights(self, today, history, macro, universe):
-        window, k = self.params["window"], self.params["top_k"]
-        scores = {t: ind.momentum_return(df["Close"], window) for t, df in history.items()}
+        sw = self.params.get("short_window", 5)
+        mw = self.params["window"]
+        lw = self.params.get("long_window", 60)
+        k = self.params["top_k"]
+        scores = {}
+        for t, df in history.items():
+            short_m = ind.momentum_return(df["Close"], sw)
+            mid_m = ind.momentum_return(df["Close"], mw)
+            long_m = ind.momentum_return(df["Close"], lw)
+            # 장기 추세에 가장 큰 비중을 두되, 단기/중기 모멘텀으로 보정 (여러 시간대 합의)
+            scores[t] = 0.2 * short_m + 0.3 * mid_m + 0.5 * long_m
         winners = [t for t in _top_k(scores, k) if scores[t] > 0]
         if not winners:
             return {}
@@ -118,25 +134,48 @@ class MeanReversionAgent(BaseAgent):
 
 class ValueProxyAgent(BaseAgent):
     agent_id = "agent03_value_proxy"
-    name = "가치투자 근사 (Value Proxy)"
-    description = ("장기(200일) 평균 대비 가장 저평가된(할인폭이 큰) 종목 매수. "
-                    "실제 재무데이터(PER/PBR) 연동 전까지는 가격 기반 근사치 사용")
+    name = "가치투자 (Value)"
+    description = ("실제 재무데이터(PER/PBR)가 조회되는 종목(국내)은 저PER/저PBR 기준으로, "
+                    "재무데이터가 없는 종목(해외 종목·조회 실패 시)은 장기(200일) 평균 대비 "
+                    "할인폭이 큰 가격 기반 근사치로 저평가 종목을 골라 매수")
 
     def __init__(self, params=None):
         super().__init__(params or {"long_window": 200, "top_k": 4})
 
     def compute_target_weights(self, today, history, macro, universe):
         lw, k = self.params["long_window"], self.params["top_k"]
-        scores = {}
+        fundamentals = macro.get("fundamentals", {}) or {}
+
+        fundamental_scores: Dict[str, float] = {}
+        proxy_scores: Dict[str, float] = {}
         for t, df in history.items():
-            sma_long = ind.sma(df["Close"], lw)
-            if not sma_long.empty and pd.notna(sma_long.iloc[-1]):
-                discount = sma_long.iloc[-1] / df["Close"].iloc[-1] - 1
-                if discount > 0:
-                    scores[t] = discount
-        if not scores:
+            f = fundamentals.get(t)
+            per = f.get("per") if f else None
+            pbr = f.get("pbr") if f else None
+            if per and pbr and per > 0 and pbr > 0:
+                # 저PER/저PBR일수록 저평가로 보고 역수 합산 점수를 높게 준다
+                fundamental_scores[t] = 1.0 / per + 1.0 / pbr
+            else:
+                sma_long = ind.sma(df["Close"], lw)
+                if not sma_long.empty and pd.notna(sma_long.iloc[-1]):
+                    discount = sma_long.iloc[-1] / df["Close"].iloc[-1] - 1
+                    if discount > 0:
+                        proxy_scores[t] = discount
+
+        # 재무데이터 기반 점수와 가격 근사치 점수는 단위가 다르므로, 각 그룹 내부에서
+        # 백분위 순위로 정규화한 뒤 하나의 후보 풀로 합쳐 상위 K개를 고른다.
+        combined_rank: Dict[str, float] = {}
+        for scores in (fundamental_scores, proxy_scores):
+            if not scores:
+                continue
+            ordered = sorted(scores.items(), key=lambda kv: kv[1])
+            n = len(ordered)
+            for i, (t, _) in enumerate(ordered):
+                combined_rank[t] = (i + 1) / n  # 0~1, 클수록 저평가
+
+        if not combined_rank:
             return {}
-        winners = _top_k(scores, k)
+        winners = _top_k(combined_rank, k)
         w = 1.0 / len(winners)
         return {t: w for t in winners}
 
@@ -224,11 +263,18 @@ class MacroSectorRotationAgent(BaseAgent):
 
     def compute_target_weights(self, today, history, macro, universe):
         k = self.params["top_k"]
-        yield_10y = macro.get("us_10y_yield", 4.0)
-        oil = macro.get("wti_oil", 75)
-        risk_off = yield_10y > self.params["risk_off_yield"]
-        # 고유가 -> 에너지 섹터 선호, 금리 상승(risk-off) -> 전체 비중 축소
-        preferred_sectors = {"Energy"} if oil > 80 else set()
+        yield_10y = macro.get("us_10y_yield")
+        oil = macro.get("wti_oil")
+        macro_available = yield_10y is not None and oil is not None
+        if macro_available:
+            risk_off = yield_10y > self.params["risk_off_yield"]
+            preferred_sectors = {"Energy"} if oil > 80 else set()  # 고유가 -> 에너지 섹터 선호
+            exposure = 0.5 if risk_off else 1.0  # risk-off 시 현금 비중 확대
+        else:
+            # 실거시데이터 미연동 상태 (get_macro_snapshot이 아직 실데이터를 제공하지 않음).
+            # 근거 없는 판단을 내리는 대신, 안전하게 노출을 낮추고 섹터 가산점 없이 동작한다.
+            preferred_sectors = set()
+            exposure = 0.5
         scores = {}
         for inst in universe:
             if inst.ticker not in history:
@@ -240,7 +286,6 @@ class MacroSectorRotationAgent(BaseAgent):
         winners = [t for t in winners if scores[t] > -0.5]
         if not winners:
             return {}
-        exposure = 0.5 if risk_off else 1.0  # risk-off 시 현금 비중 확대
         w = exposure / len(winners)
         return {t: w for t in winners}
 
@@ -268,18 +313,25 @@ class VolatilityTargetingAgent(BaseAgent):
 class DualMomentumAgent(BaseAgent):
     agent_id = "agent09_dual_momentum"
     name = "듀얼 모멘텀 (절대+상대)"
-    description = "절대 모멘텀(자체 수익률 양전환)과 상대 모멘텀(동종 대비 우위)을 동시 만족하는 종목 매수"
+    description = ("장기(90일) 절대 모멘텀(자체 수익률 양전환)이 단기(5일) 추세로도 "
+                    "확인되고, 동종 대비 상대적으로 우위인 종목만 매수")
 
     def __init__(self, params=None):
-        super().__init__(params or {"window": 90, "top_k": 3})
+        super().__init__(params or {"window": 90, "confirm_window": 5, "top_k": 3})
 
     def compute_target_weights(self, today, history, macro, universe):
-        window, k = self.params["window"], self.params["top_k"]
-        scores = {t: ind.momentum_return(df["Close"], window) for t, df in history.items()}
-        positive = {t: s for t, s in scores.items() if s > 0}  # 절대 모멘텀 필터
-        if not positive:
+        window = self.params["window"]
+        cw = self.params.get("confirm_window", 5)
+        k = self.params["top_k"]
+        scores = {}
+        for t, df in history.items():
+            long_mom = ind.momentum_return(df["Close"], window)      # 절대 모멘텀(장기 추세)
+            short_mom = ind.momentum_return(df["Close"], cw)          # 단기 확인(최근 추세 반전 방지)
+            if long_mom > 0 and short_mom > 0:
+                scores[t] = long_mom
+        if not scores:
             return {}
-        winners = _top_k(positive, k)  # 상대 모멘텀 필터(상위 K)
+        winners = _top_k(scores, k)  # 상대 모멘텀 필터(상위 K)
         w = 1.0 / len(winners)
         return {t: w for t in winners}
 
