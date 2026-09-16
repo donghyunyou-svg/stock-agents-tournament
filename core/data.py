@@ -281,12 +281,28 @@ class KISOpenAPIProvider(MarketDataProvider):
         }
 
     def _get(self, path: str, tr_id: str, params: Dict) -> Dict:
+        import time
         import requests
-        resp = requests.get(f"{self.base_url}{path}", headers=self._headers(tr_id),
-                             params=params, timeout=15)
-        if resp.status_code != 200:
-            raise RuntimeError(f"KIS API 호출 실패 ({path}): HTTP {resp.status_code} {resp.text[:500]}")
-        return resp.json()
+
+        last_err = None
+        for attempt in range(5):
+            # 모의투자 서버는 초당 요청 제한이 엄격하므로(약 2건/초) 호출 간 간격을 둔다.
+            time.sleep(0.5)
+            resp = requests.get(f"{self.base_url}{path}", headers=self._headers(tr_id),
+                                 params=params, timeout=15)
+            if resp.status_code != 200:
+                last_err = f"HTTP {resp.status_code} {resp.text[:300]}"
+                time.sleep(1.0 * (attempt + 1))
+                continue
+            body = resp.json()
+            rt_cd = body.get("rt_cd")
+            if rt_cd is not None and rt_cd != "0":
+                # rt_cd != "0" : 요청 실패 (초당 거래건수 초과 EGW00201 등). 잠시 대기 후 재시도.
+                last_err = f"rt_cd={rt_cd} msg_cd={body.get('msg_cd')} msg1={body.get('msg1')}"
+                time.sleep(1.5 * (attempt + 1))
+                continue
+            return body
+        raise RuntimeError(f"KIS API 호출 실패 ({path}), {5}회 재시도 후 포기: {last_err}")
 
     # -------------------------------------------------------------- 유니버스
     def get_universe(self) -> List[Instrument]:
