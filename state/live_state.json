@@ -1,0 +1,341 @@
+{
+  "portfolios": {
+    "agent01_momentum": {
+      "agent_id": "agent01_momentum",
+      "budget": 10000000,
+      "cash": 33323.333333333954,
+      "holdings": {
+        "XOM": 19876.764062810573,
+        "AAPL": 10004.707214744538,
+        "JPM": 9343.409938602004
+      },
+      "avg_cost": {
+        "XOM": 167.7,
+        "AAPL": 333.1765,
+        "JPM": 353.0312
+      },
+      "history": [
+        {
+          "date": "2026-09-16",
+          "nav": 9998505.222716592,
+          "cash": 33323.333333333954,
+          "equity": 9965181.889383258,
+          "holdings": {
+            "XOM": 19876.764062810573,
+            "AAPL": 10004.707214744538,
+            "JPM": 9343.409938602004
+          }
+        }
+      ]
+    },
+    "agent02_mean_reversion": {
+      "agent_id": "agent02_mean_reversion",
+      "budget": 10000000,
+      "cash": 10000000,
+      "holdings": {},
+      "avg_cost": {},
+      "history": [
+        {
+          "date": "2026-09-16",
+          "nav": 10000000,
+          "cash": 10000000,
+          "equity": 0,
+          "holdings": {}
+        }
+      ]
+    },
+    "agent03_value_proxy": {
+      "agent_id": "agent03_value_proxy",
+      "budget": 10000000,
+      "cash": 10000000,
+      "holdings": {},
+      "avg_cost": {},
+      "history": [
+        {
+          "date": "2026-09-16",
+          "nav": 10000000,
+          "cash": 10000000,
+          "equity": 0,
+          "holdings": {}
+        }
+      ]
+    },
+    "agent04_ma_cross": {
+      "agent_id": "agent04_ma_cross",
+      "budget": 10000000,
+      "cash": 33323.333333333954,
+      "holdings": {
+        "XOM": 19876.764062810573,
+        "AAPL": 10004.707214744538,
+        "JPM": 9343.409938602004
+      },
+      "avg_cost": {
+        "XOM": 167.7,
+        "AAPL": 333.1765,
+        "JPM": 353.0312
+      },
+      "history": [
+        {
+          "date": "2026-09-16",
+          "nav": 9998505.222716592,
+          "cash": 33323.333333333954,
+          "equity": 9965181.889383258,
+          "holdings": {
+            "XOM": 19876.764062810573,
+            "AAPL": 10004.707214744538,
+            "JPM": 9343.409938602004
+          }
+        }
+      ]
+    },
+    "agent05_macd": {
+      "agent_id": "agent05_macd",
+      "budget": 10000000,
+      "cash": 49992.5,
+      "holdings": {
+        "AAPL": 15007.060822116808,
+        "XOM": 29508.14086294927
+      },
+      "avg_cost": {
+        "AAPL": 333.1765,
+        "XOM": 167.7
+      },
+      "history": [
+        {
+          "date": "2026-09-16",
+          "nav": 9998507.722716592,
+          "cash": 49992.5,
+          "equity": 9948515.222716592,
+          "holdings": {
+            "AAPL": 15007.060822116808,
+            "XOM": 29508.14086294927
+          }
+        }
+      ]
+    },
+    "agent06_volume_breakout": {
+      "agent_id": "agent06_volume_breakout",
+      "budget": 10000000,
+      "cash": 10000000,
+      "holdings": {},
+      "avg_cost": {},
+      "history": [
+        {
+          "date": "2026-09-16",
+          "nav": 10000000,
+          "cash": 10000000,
+          "equity": 0,
+          "holdings": {}
+        }
+      ]
+    },
+    "agent07_macro_rotation": {
+      "agent_id": "agent07_macro_rotation",
+      "budget": 10000000,
+      "cash": 24988.750000000466,
+      "holdings": {
+        "AAPL": 7503.530411058404,
+        "005930": 9.861932938856016,
+        "XOM": 14907.573047107931,
+        "JPM": 7006.506004898695
+      },
+      "avg_cost": {
+        "AAPL": 333.1765,
+        "005930": 253499.99999999997,
+        "XOM": 167.7,
+        "JPM": 353.0312
+      },
+      "history": [
+        {
+          "date": "2026-09-16",
+          "nav": 9998503.972716592,
+          "cash": 24988.750000000466,
+          "equity": 9973515.222716592,
+          "holdings": {
+            "AAPL": 7503.530411058404,
+            "005930": 9.861932938856016,
+            "XOM": 14907.573047107931,
+            "JPM": 7006.506004898695
+          }
+        }
+      ]
+    },
+    "agent08_vol_targeting": {
+      "agent_id": "agent08_vol_targeting",
+      "budget": 10000000,
+      "cash": 9783.907982861158,
+      "holdings": {
+        "JPM": 10945.54106277854,
+        "XOM": 15597.740655769601,
+        "AAPL": 7624.780136878966,
+        "005930": 3.820361424300143
+      },
+      "avg_cost": {
+        "JPM": 353.0312,
+        "XOM": 167.7,
+        "AAPL": 333.1765,
+        "005930": 253500.0
+      },
+      "history": [
+        {
+          "date": "2026-09-16",
+          "nav": 9998501.692332348,
+          "cash": 9783.907982861158,
+          "equity": 9988717.784349486,
+          "holdings": {
+            "JPM": 10945.54106277854,
+            "XOM": 15597.740655769601,
+            "AAPL": 7624.780136878966,
+            "005930": 3.820361424300143
+          }
+        }
+      ]
+    },
+    "agent09_dual_momentum": {
+      "agent_id": "agent09_dual_momentum",
+      "budget": 10000000,
+      "cash": 33323.33333333349,
+      "holdings": {
+        "AAPL": 10004.707214744538,
+        "JPM": 9442.036095770949,
+        "XOM": 19669.142651858034
+      },
+      "avg_cost": {
+        "AAPL": 333.1765,
+        "JPM": 353.0312,
+        "XOM": 167.7
+      },
+      "history": [
+        {
+          "date": "2026-09-16",
+          "nav": 9998505.222716592,
+          "cash": 33323.33333333349,
+          "equity": 9965181.889383258,
+          "holdings": {
+            "AAPL": 10004.707214744538,
+            "JPM": 9442.036095770949,
+            "XOM": 19669.142651858034
+          }
+        }
+      ]
+    },
+    "agent10_buy_hold": {
+      "agent_id": "agent10_buy_hold",
+      "budget": 10000000,
+      "cash": 24988.750000000466,
+      "holdings": {
+        "005930": 9.861932938856016,
+        "AAPL": 7503.530411058404,
+        "JPM": 7081.527071828212,
+        "XOM": 14749.643546312418
+      },
+      "avg_cost": {
+        "005930": 253499.99999999997,
+        "AAPL": 333.1765,
+        "JPM": 353.0312,
+        "XOM": 167.7
+      },
+      "history": [
+        {
+          "date": "2026-09-16",
+          "nav": 9998503.972716592,
+          "cash": 24988.750000000466,
+          "equity": 9973515.222716592,
+          "holdings": {
+            "005930": 9.861932938856016,
+            "AAPL": 7503.530411058404,
+            "JPM": 7081.527071828212,
+            "XOM": 14749.643546312418
+          }
+        }
+      ]
+    }
+  },
+  "tournament": {
+    "points": {
+      "agent01_momentum": 1
+    },
+    "week_points": {
+      "agent01_momentum": 1
+    },
+    "daily_results": [
+      {
+        "date": "2026-09-16",
+        "returns": {
+          "agent01_momentum": 0.0,
+          "agent02_mean_reversion": 0.0,
+          "agent03_value_proxy": 0.0,
+          "agent04_ma_cross": 0.0,
+          "agent05_macd": 0.0,
+          "agent06_volume_breakout": 0.0,
+          "agent07_macro_rotation": 0.0,
+          "agent08_vol_targeting": 0.0,
+          "agent09_dual_momentum": 0.0,
+          "agent10_buy_hold": 0.0
+        },
+        "winner": "agent01_momentum"
+      }
+    ]
+  },
+  "evolution_log": [],
+  "agent_params": {
+    "agent01_momentum": {
+      "window": 60,
+      "top_k": 4
+    },
+    "agent02_mean_reversion": {
+      "rsi_window": 14,
+      "oversold": 30,
+      "top_k": 4
+    },
+    "agent03_value_proxy": {
+      "long_window": 200,
+      "top_k": 4
+    },
+    "agent04_ma_cross": {
+      "short": 20,
+      "long": 60,
+      "top_k": 4
+    },
+    "agent05_macd": {
+      "fast": 12,
+      "slow": 26,
+      "signal": 9,
+      "top_k": 4
+    },
+    "agent06_volume_breakout": {
+      "lookback": 20,
+      "vol_mult": 1.5,
+      "top_k": 4
+    },
+    "agent07_macro_rotation": {
+      "top_k": 4,
+      "risk_off_yield": 4.5
+    },
+    "agent08_vol_targeting": {
+      "vol_window": 20,
+      "top_k": 6
+    },
+    "agent09_dual_momentum": {
+      "window": 90,
+      "top_k": 3
+    },
+    "agent10_buy_hold": {}
+  },
+  "current_iso_week": [
+    2026,
+    38
+  ],
+  "week_start_nav": {
+    "agent01_momentum": 10000000,
+    "agent02_mean_reversion": 10000000,
+    "agent03_value_proxy": 10000000,
+    "agent04_ma_cross": 10000000,
+    "agent05_macd": 10000000,
+    "agent06_volume_breakout": 10000000,
+    "agent07_macro_rotation": 10000000,
+    "agent08_vol_targeting": 10000000,
+    "agent09_dual_momentum": 10000000,
+    "agent10_buy_hold": 10000000
+  }
+}
