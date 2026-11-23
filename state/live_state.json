@@ -3,14 +3,12 @@
     "agent01_momentum": {
       "agent_id": "agent01_momentum",
       "budget": 10000000,
-      "cash": 2863309.5889323344,
+      "cash": 6096128.64717508,
       "holdings": {
-        "MSFT": 6703.8830953680545,
-        "AAPL": 9566.005974691165
+        "AAPL": 9592.31116168436
       },
       "avg_cost": {
-        "MSFT": 503.81361760854116,
-        "AAPL": 344.1038082481553
+        "AAPL": 344.0995746318802
       },
       "history": [
         {
@@ -568,6 +566,15 @@
             "MSFT": 6703.8830953680545,
             "AAPL": 9566.005974691165
           }
+        },
+        {
+          "date": "2026-11-23",
+          "nav": 9382070.758721674,
+          "cash": 6096128.64717508,
+          "equity": 3285942.111546594,
+          "holdings": {
+            "AAPL": 9592.31116168436
+          }
         }
       ],
       "peak_nav": 10346835.970463125,
@@ -576,19 +583,9 @@
     "agent02_mean_reversion": {
       "agent_id": "agent02_mean_reversion",
       "budget": 10000000,
-      "cash": 22353.19890923286,
-      "holdings": {
-        "NVDA": 15338.300624244763,
-        "XOM": 14088.49886822658,
-        "005930": 12.090092468289688,
-        "000660": 1.9808726918482653
-      },
-      "avg_cost": {
-        "NVDA": 172.31443513915104,
-        "XOM": 160.58,
-        "005930": 185200.0,
-        "000660": 1117000.0
-      },
+      "cash": 8441193.316207789,
+      "holdings": {},
+      "avg_cost": {},
       "history": [
         {
           "date": "2026-09-16",
@@ -1074,10 +1071,17 @@
             "005930": 12.090092468289688,
             "000660": 1.9808726918482653
           }
+        },
+        {
+          "date": "2026-11-23",
+          "nav": 8441193.316207789,
+          "cash": 8441193.316207789,
+          "equity": 0,
+          "holdings": {}
         }
       ],
       "peak_nav": 10017012.925811348,
-      "halt_days_remaining": 0
+      "halt_days_remaining": 3
     },
     "agent03_value_proxy": {
       "agent_id": "agent03_value_proxy",
@@ -1534,10 +1538,17 @@
           "cash": 8587134.528405454,
           "equity": 0,
           "holdings": {}
+        },
+        {
+          "date": "2026-11-23",
+          "nav": 8587134.528405454,
+          "cash": 8587134.528405454,
+          "equity": 0,
+          "holdings": {}
         }
       ],
       "peak_nav": 10133066.4096164,
-      "halt_days_remaining": 1
+      "halt_days_remaining": 0
     },
     "agent04_ma_cross": {
       "agent_id": "agent04_ma_cross",
@@ -2123,10 +2134,17 @@
           "cash": 8538473.019971464,
           "equity": 0,
           "holdings": {}
+        },
+        {
+          "date": "2026-11-23",
+          "nav": 8538473.019971464,
+          "cash": 8538473.019971464,
+          "equity": 0,
+          "holdings": {}
         }
       ],
       "peak_nav": 10172336.711030778,
-      "halt_days_remaining": 3
+      "halt_days_remaining": 2
     },
     "agent05_macd": {
       "agent_id": "agent05_macd",
@@ -2662,10 +2680,17 @@
           "cash": 8767354.649039052,
           "equity": 0,
           "holdings": {}
+        },
+        {
+          "date": "2026-11-23",
+          "nav": 8767354.649039052,
+          "cash": 8767354.649039052,
+          "equity": 0,
+          "holdings": {}
         }
       ],
       "peak_nav": 10367117.919768259,
-      "halt_days_remaining": 2
+      "halt_days_remaining": 1
     },
     "agent06_volume_breakout": {
       "agent_id": "agent06_volume_breakout",
@@ -3023,6 +3048,13 @@
           "cash": 9648951.347674845,
           "equity": 0,
           "holdings": {}
+        },
+        {
+          "date": "2026-11-23",
+          "nav": 9648951.347674845,
+          "cash": 9648951.347674845,
+          "equity": 0,
+          "holdings": {}
         }
       ],
       "peak_nav": 10000000,
@@ -3031,18 +3063,18 @@
     "agent07_macro_rotation": {
       "agent_id": "agent07_macro_rotation",
       "budget": 10000000,
-      "cash": 4734063.8490565885,
+      "cash": 4607447.968192173,
       "holdings": {
-        "AAPL": 3371.1347558531315,
-        "JPM": 3676.328674322253,
-        "MSFT": 2362.5004376710253,
-        "035420": 7.055135007212987
+        "AAPL": 3364.1292063386027,
+        "JPM": 3711.126464184948,
+        "MSFT": 2378.4696213228594,
+        "XOM": 7203.050821447288
       },
       "avg_cost": {
         "AAPL": 334.24410983833195,
-        "JPM": 335.0247834227144,
-        "MSFT": 523.312862091967,
-        "035420": 169900.0
+        "JPM": 334.795105362831,
+        "MSFT": 523.0524045550815,
+        "XOM": 159.99
       },
       "history": [
         {
@@ -3643,6 +3675,18 @@
             "MSFT": 2362.5004376710253,
             "035420": 7.055135007212987
           }
+        },
+        {
+          "date": "2026-11-23",
+          "nav": 9217112.37188558,
+          "cash": 4607447.968192173,
+          "equity": 4609664.403693407,
+          "holdings": {
+            "AAPL": 3364.1292063386027,
+            "JPM": 3711.126464184948,
+            "MSFT": 2378.4696213228594,
+            "XOM": 7203.050821447288
+          }
         }
       ],
       "peak_nav": 10184302.153126748,
@@ -3651,22 +3695,20 @@
     "agent08_vol_targeting": {
       "agent_id": "agent08_vol_targeting",
       "budget": 10000000,
-      "cash": 8680.787239754107,
+      "cash": 1483.1246237431187,
       "holdings": {
-        "JPM": 5412.138065663138,
-        "AAPL": 5418.847683578533,
-        "MSFT": 2775.426148534877,
-        "XOM": 9602.87659165647,
-        "005380": 5.025314123916683,
-        "NVDA": 7139.6991126735065
+        "JPM": 5928.0817066174395,
+        "AAPL": 5944.942906257146,
+        "MSFT": 3090.574425106932,
+        "XOM": 11238.122916998416,
+        "005380": 5.622698932270975
       },
       "avg_cost": {
-        "JPM": 347.0528322694931,
-        "AAPL": 338.132997734872,
-        "MSFT": 505.2247953103972,
-        "XOM": 174.05992567308195,
-        "005380": 267500.0,
-        "NVDA": 145.98
+        "JPM": 343.8741103841232,
+        "AAPL": 338.52476343879823,
+        "MSFT": 503.113511237818,
+        "XOM": 172.01262698942537,
+        "005380": 265189.1667616893
       },
       "history": [
         {
@@ -4365,6 +4407,19 @@
             "005380": 5.025314123916683,
             "NVDA": 7139.6991126735065
           }
+        },
+        {
+          "date": "2026-11-23",
+          "nav": 8556040.647496084,
+          "cash": 1483.1246237431187,
+          "equity": 8554557.52287234,
+          "holdings": {
+            "JPM": 5928.0817066174395,
+            "AAPL": 5944.942906257146,
+            "MSFT": 3090.574425106932,
+            "XOM": 11238.122916998416,
+            "005380": 5.622698932270975
+          }
         }
       ],
       "peak_nav": 10000000,
@@ -4876,6 +4931,13 @@
         },
         {
           "date": "2026-11-20",
+          "nav": 9535741.140122604,
+          "cash": 9535741.140122604,
+          "equity": 0,
+          "holdings": {}
+        },
+        {
+          "date": "2026-11-23",
           "nav": 9535741.140122604,
           "cash": 9535741.140122604,
           "equity": 0,
@@ -5723,17 +5785,24 @@
           "cash": 8521292.839088721,
           "equity": 0,
           "holdings": {}
+        },
+        {
+          "date": "2026-11-23",
+          "nav": 8521292.839088721,
+          "cash": 8521292.839088721,
+          "equity": 0,
+          "holdings": {}
         }
       ],
       "peak_nav": 10176531.697881166,
-      "halt_days_remaining": 0
+      "halt_days_remaining": 3
     }
   },
   "tournament": {
     "points": {
       "agent01_momentum": 4,
       "agent06_volume_breakout": 2,
-      "agent03_value_proxy": 10,
+      "agent03_value_proxy": 11,
       "agent05_macd": 6,
       "agent04_ma_cross": 7,
       "agent08_vol_targeting": 4,
@@ -5743,9 +5812,7 @@
       "agent10_buy_hold": 1
     },
     "week_points": {
-      "agent04_ma_cross": 1,
-      "agent03_value_proxy": 3,
-      "agent02_mean_reversion": 1
+      "agent03_value_proxy": 1
     },
     "daily_results": [
       {
@@ -6531,6 +6598,22 @@
           "agent10_buy_hold": 0.0
         },
         "winner": "agent03_value_proxy"
+      },
+      {
+        "date": "2026-11-23",
+        "returns": {
+          "agent01_momentum": -0.017007746099103493,
+          "agent02_mean_reversion": -0.05708625577900717,
+          "agent03_value_proxy": 0.0,
+          "agent04_ma_cross": 0.0,
+          "agent05_macd": 0.0,
+          "agent06_volume_breakout": 0.0,
+          "agent07_macro_rotation": -0.02131659738823488,
+          "agent08_vol_targeting": -0.03615742311007508,
+          "agent09_dual_momentum": 0.0,
+          "agent10_buy_hold": 0.0
+        },
+        "winner": "agent03_value_proxy"
       }
     ]
   },
@@ -6692,6 +6775,31 @@
         "top_k": 4
       },
       "changes": []
+    },
+    {
+      "week": "2026-W47",
+      "winner": "agent03_value_proxy",
+      "winner_weekly_return": 0.0,
+      "winner_params_shared": {
+        "long_window": 200,
+        "top_k": 2
+      },
+      "changes": [
+        {
+          "agent_id": "agent03_value_proxy",
+          "param": "top_k",
+          "old": 3,
+          "new": 2,
+          "reason": "승자 탐험적 조정"
+        },
+        {
+          "agent_id": "agent08_vol_targeting",
+          "param": "top_k",
+          "old": 6,
+          "new": 5,
+          "reason": "주간 우승 에이전트(agent03_value_proxy)의 top_k 방향으로 15% 이동"
+        }
+      ]
     }
   ],
   "agent_params": {
@@ -6706,7 +6814,7 @@
     },
     "agent03_value_proxy": {
       "long_window": 200,
-      "top_k": 3
+      "top_k": 2
     },
     "agent04_ma_cross": {
       "short": 20,
@@ -6730,7 +6838,7 @@
     },
     "agent08_vol_targeting": {
       "vol_window": 20,
-      "top_k": 6
+      "top_k": 5
     },
     "agent09_dual_momentum": {
       "window": 86,
@@ -6740,18 +6848,18 @@
   },
   "current_iso_week": [
     2026,
-    47
+    48
   ],
   "week_start_nav": {
-    "agent01_momentum": 9942835.609409317,
-    "agent02_mean_reversion": 9252477.247277658,
+    "agent01_momentum": 9544399.481776137,
+    "agent02_mean_reversion": 8952243.371085497,
     "agent03_value_proxy": 8587134.528405454,
-    "agent04_ma_cross": 8932244.194294691,
+    "agent04_ma_cross": 8538473.019971464,
     "agent05_macd": 8767354.649039052,
     "agent06_volume_breakout": 9648951.347674845,
-    "agent07_macro_rotation": 9784294.3238898,
-    "agent08_vol_targeting": 9380961.976576753,
-    "agent09_dual_momentum": 9757895.276779698,
-    "agent10_buy_hold": 8925837.728490341
+    "agent07_macro_rotation": 9417869.300008886,
+    "agent08_vol_targeting": 8877010.47105042,
+    "agent09_dual_momentum": 9535741.140122604,
+    "agent10_buy_hold": 8521292.839088721
   }
 }
