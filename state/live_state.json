@@ -3,9 +3,9 @@
     "agent01_momentum": {
       "agent_id": "agent01_momentum",
       "budget": 10000000,
-      "cash": 6096128.64717508,
+      "cash": 6138914.612228948,
       "holdings": {
-        "AAPL": 9592.31116168436
+        "AAPL": 9469.503894876674
       },
       "avg_cost": {
         "AAPL": 344.0995746318802
@@ -575,6 +575,15 @@
           "holdings": {
             "AAPL": 9592.31116168436
           }
+        },
+        {
+          "date": "2026-11-24",
+          "nav": 9444529.031852497,
+          "cash": 6138914.612228948,
+          "equity": 3305614.419623549,
+          "holdings": {
+            "AAPL": 9469.503894876674
+          }
         }
       ],
       "peak_nav": 10346835.970463125,
@@ -1078,10 +1087,17 @@
           "cash": 8441193.316207789,
           "equity": 0,
           "holdings": {}
+        },
+        {
+          "date": "2026-11-24",
+          "nav": 8441193.316207789,
+          "cash": 8441193.316207789,
+          "equity": 0,
+          "holdings": {}
         }
       ],
       "peak_nav": 10017012.925811348,
-      "halt_days_remaining": 3
+      "halt_days_remaining": 2
     },
     "agent03_value_proxy": {
       "agent_id": "agent03_value_proxy",
@@ -1545,10 +1561,17 @@
           "cash": 8587134.528405454,
           "equity": 0,
           "holdings": {}
+        },
+        {
+          "date": "2026-11-24",
+          "nav": 8587134.528405454,
+          "cash": 8587134.528405454,
+          "equity": 0,
+          "holdings": {}
         }
       ],
       "peak_nav": 10133066.4096164,
-      "halt_days_remaining": 0
+      "halt_days_remaining": 3
     },
     "agent04_ma_cross": {
       "agent_id": "agent04_ma_cross",
@@ -2141,10 +2164,17 @@
           "cash": 8538473.019971464,
           "equity": 0,
           "holdings": {}
+        },
+        {
+          "date": "2026-11-24",
+          "nav": 8538473.019971464,
+          "cash": 8538473.019971464,
+          "equity": 0,
+          "holdings": {}
         }
       ],
       "peak_nav": 10172336.711030778,
-      "halt_days_remaining": 2
+      "halt_days_remaining": 1
     },
     "agent05_macd": {
       "agent_id": "agent05_macd",
@@ -2687,10 +2717,17 @@
           "cash": 8767354.649039052,
           "equity": 0,
           "holdings": {}
+        },
+        {
+          "date": "2026-11-24",
+          "nav": 8767354.649039052,
+          "cash": 8767354.649039052,
+          "equity": 0,
+          "holdings": {}
         }
       ],
       "peak_nav": 10367117.919768259,
-      "halt_days_remaining": 1
+      "halt_days_remaining": 0
     },
     "agent06_volume_breakout": {
       "agent_id": "agent06_volume_breakout",
@@ -3055,6 +3092,13 @@
           "cash": 9648951.347674845,
           "equity": 0,
           "holdings": {}
+        },
+        {
+          "date": "2026-11-24",
+          "nav": 9648951.347674845,
+          "cash": 9648951.347674845,
+          "equity": 0,
+          "holdings": {}
         }
       ],
       "peak_nav": 10000000,
@@ -3063,18 +3107,18 @@
     "agent07_macro_rotation": {
       "agent_id": "agent07_macro_rotation",
       "budget": 10000000,
-      "cash": 4607447.968192173,
+      "cash": 4624355.975885983,
       "holdings": {
-        "AAPL": 3364.1292063386027,
-        "JPM": 3711.126464184948,
-        "MSFT": 2378.4696213228594,
-        "XOM": 7203.050821447288
+        "AAPL": 3315.328313021459,
+        "JPM": 3654.7552817202386,
+        "005380": 4.208417481852839,
+        "051910": 5.420678255313962
       },
       "avg_cost": {
         "AAPL": 334.24410983833195,
         "JPM": 334.795105362831,
-        "MSFT": 523.0524045550815,
-        "XOM": 159.99
+        "005380": 275000.0,
+        "051910": 213500.0
       },
       "history": [
         {
@@ -3687,6 +3731,18 @@
             "MSFT": 2378.4696213228594,
             "XOM": 7203.050821447288
           }
+        },
+        {
+          "date": "2026-11-24",
+          "nav": 9253615.205924105,
+          "cash": 4624355.975885983,
+          "equity": 4629259.230038123,
+          "holdings": {
+            "AAPL": 3315.328313021459,
+            "JPM": 3654.7552817202386,
+            "005380": 4.208417481852839,
+            "051910": 5.420678255313962
+          }
         }
       ],
       "peak_nav": 10184302.153126748,
@@ -3695,19 +3751,19 @@
     "agent08_vol_targeting": {
       "agent_id": "agent08_vol_targeting",
       "budget": 10000000,
-      "cash": 1483.1246237431187,
+      "cash": 475648.608840972,
       "holdings": {
-        "JPM": 5928.0817066174395,
-        "AAPL": 5944.942906257146,
-        "MSFT": 3090.574425106932,
-        "XOM": 11238.122916998416,
-        "005380": 5.622698932270975
+        "JPM": 5928.082170229252,
+        "AAPL": 5949.148455605521,
+        "MSFT": 3090.574428087791,
+        "XOM": 11238.216484440514,
+        "005380": 3.889688256631147
       },
       "avg_cost": {
-        "JPM": 343.8741103841232,
-        "AAPL": 338.52476343879823,
-        "MSFT": 503.113511237818,
-        "XOM": 172.01262698942537,
+        "JPM": 343.87410825581543,
+        "AAPL": 338.53222510639205,
+        "MSFT": 503.1135112275812,
+        "XOM": 172.01250116431314,
         "005380": 265189.1667616893
       },
       "history": [
@@ -4420,6 +4476,19 @@
             "XOM": 11238.122916998416,
             "005380": 5.622698932270975
           }
+        },
+        {
+          "date": "2026-11-24",
+          "nav": 8784612.194564061,
+          "cash": 475648.608840972,
+          "equity": 8308963.58572309,
+          "holdings": {
+            "JPM": 5928.082170229252,
+            "AAPL": 5949.148455605521,
+            "MSFT": 3090.574428087791,
+            "XOM": 11238.216484440514,
+            "005380": 3.889688256631147
+          }
         }
       ],
       "peak_nav": 10000000,
@@ -4938,6 +5007,13 @@
         },
         {
           "date": "2026-11-23",
+          "nav": 9535741.140122604,
+          "cash": 9535741.140122604,
+          "equity": 0,
+          "holdings": {}
+        },
+        {
+          "date": "2026-11-24",
           "nav": 9535741.140122604,
           "cash": 9535741.140122604,
           "equity": 0,
@@ -5792,10 +5868,17 @@
           "cash": 8521292.839088721,
           "equity": 0,
           "holdings": {}
+        },
+        {
+          "date": "2026-11-24",
+          "nav": 8521292.839088721,
+          "cash": 8521292.839088721,
+          "equity": 0,
+          "holdings": {}
         }
       ],
       "peak_nav": 10176531.697881166,
-      "halt_days_remaining": 3
+      "halt_days_remaining": 2
     }
   },
   "tournament": {
@@ -5805,14 +5888,15 @@
       "agent03_value_proxy": 11,
       "agent05_macd": 6,
       "agent04_ma_cross": 7,
-      "agent08_vol_targeting": 4,
+      "agent08_vol_targeting": 5,
       "agent07_macro_rotation": 2,
       "agent09_dual_momentum": 5,
       "agent02_mean_reversion": 8,
       "agent10_buy_hold": 1
     },
     "week_points": {
-      "agent03_value_proxy": 1
+      "agent03_value_proxy": 1,
+      "agent08_vol_targeting": 1
     },
     "daily_results": [
       {
@@ -6614,6 +6698,22 @@
           "agent10_buy_hold": 0.0
         },
         "winner": "agent03_value_proxy"
+      },
+      {
+        "date": "2026-11-24",
+        "returns": {
+          "agent01_momentum": 0.006657194849309933,
+          "agent02_mean_reversion": 0.0,
+          "agent03_value_proxy": 0.0,
+          "agent04_ma_cross": 0.0,
+          "agent05_macd": 0.0,
+          "agent06_volume_breakout": 0.0,
+          "agent07_macro_rotation": 0.00396033297259879,
+          "agent08_vol_targeting": 0.026714640157170066,
+          "agent09_dual_momentum": 0.0,
+          "agent10_buy_hold": 0.0
+        },
+        "winner": "agent08_vol_targeting"
       }
     ]
   },
